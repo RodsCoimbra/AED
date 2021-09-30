@@ -14,7 +14,7 @@
 int main(int argc, char ** argv)
 {
   int i, size, dots=0;
-  int x;
+  double x;
   
   printf("I am a mathematical genius and can calculate the square root of any number!!!\n\n");
   
@@ -49,7 +49,7 @@ int main(int argc, char ** argv)
     exit(EXIT_FAILURE);
   }
   else
-    printf("Square root of %.2lf is %.4lf\n", (double)x, sqrt(x));
+    printf("Square root of %.2lf is %.4lf\n", x, sqrt(x));
 
   exit(EXIT_SUCCESS);
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
+#include <math.h>
 /*  
  * Program to calculate the square root of a floating point number.
  *
@@ -17,11 +18,11 @@ int main(int argc, char ** argv)
   
   printf("I am a mathematical genius and can calculate the square root of any number!!!\n\n");
   
-  if (argc < 2 || argc > 20)
+  if (argc != 2){
     printf("A single number is needed as an argument!\n");
-    exit(EXIT_FAILURE);
+    exit(EXIT_FAILURE);}
 
-  if (size == strlen(argv[1]) > 1){
+  if (size == (strlen(argv[1]) > 1)){
     i = 0;
     if (argv[1][0] == '-' || argv[1][0] == '+') i=1;
     for(; i<size; i++)
@@ -48,7 +49,7 @@ int main(int argc, char ** argv)
     exit(EXIT_FAILURE);
   }
   else
-    printf("Square root of %.2lf is %.4lf\n", x, sqrt(x));
+    printf("Square root of %.2lf is %.4lf\n", (double)x, sqrt(x));
 
   exit(EXIT_SUCCESS);
 }

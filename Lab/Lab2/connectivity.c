@@ -70,7 +70,7 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
       if (!quietOut)
          printf(" %d %d\n", p, q);
    }
-   printf("QF: The number of links performed is %d for %d input pairs.\t Find - %lu, Union - %lu Total - %lu.\n\n\n",
+   printf("QF: The number of links performed is %d for %d input pair.\t Find - %lu, Union - %lu Total - %lu.\n\n\n",
           links_cnt, pairs_cnt, find, uni, find+uni);
    return;
 }

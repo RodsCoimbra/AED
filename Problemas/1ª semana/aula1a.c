@@ -13,7 +13,7 @@
 
 int main(int argc, char ** argv)
 {
-  int i, size, dots=0;
+  int i, size = 0, dots=0;
   double x;
   
   printf("I am a mathematical genius and can calculate the square root of any number!!!\n\n");

@@ -38,7 +38,8 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
    int i, p, q, t;
    int pairs_cnt = 0;            /* connection pairs counter */
    int links_cnt = 0;            /* number of links counter */
-
+   unsigned long int find = 0;
+   unsigned long int uni = 0;
    /* initialize; all disconnected */
    for (i = 0; i < N; i++) {
       id[i] = i;
@@ -47,6 +48,7 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
    /* read while there is data */
    while (fscanf(fp, "%d %d", &p, &q) == 2) {
       pairs_cnt++;
+      find++;
       /* do search first */
       if (id[p] == id[q]) {
          /* already in the same set; discard */
@@ -55,19 +57,21 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
 #endif
          continue;
       }
+      
 
       /* pair has new info; must perform union */
       for (t = id[p], i = 0; i < N; i++) {
          if (id[i] == t) {
             id[i] = id[q];
+            uni++;
          }
       }
       links_cnt++;
       if (!quietOut)
          printf(" %d %d\n", p, q);
    }
-   printf("QF: The number of links performed is %d for %d input pairs.\n",
-          links_cnt, pairs_cnt);
+   printf("QF: The number of links performed is %d for %d input pairs.\t Find - %lu, Union - %lu Total - %lu.\n\n\n",
+          links_cnt, pairs_cnt, find, uni, find+uni);
    return;
 }
 
@@ -92,7 +96,8 @@ void quick_union(int *id, int N, FILE * fp, int quietOut)
    int i, j, p, q;
    int pairs_cnt = 0;            /* connection pairs counter */
    int links_cnt = 0;            /* number of links counter */
-
+   unsigned long int find = 0;
+   unsigned long int uni = 0;
    /* initialize; all disconnected */
    for (i = 0; i < N; i++) {
       id[i] = i;
@@ -107,9 +112,11 @@ void quick_union(int *id, int N, FILE * fp, int quietOut)
       /* do search first */
       while (i != id[i]) {
          i = id[i];
+         find++;
       }
       while (j != id[j]) {
          j = id[j];
+         find++;
       }
       if (i == j) {
          /* already in the same set; discard */
@@ -122,12 +129,12 @@ void quick_union(int *id, int N, FILE * fp, int quietOut)
       /* pair has new info; must perform union */
       id[i] = j;
       links_cnt++;
-
+      uni++;
       if (!quietOut)
          printf(" %d %d\n", p, q);
    }
-   printf("QU: The number of links performed is %d for %d input pairs.\n",
-          links_cnt, pairs_cnt);
+   printf("QU: The number of links performed is %d for %d input pairs.\t Find - %lu, Union - %lu Total - %lu.\n\n\n",
+          links_cnt, pairs_cnt, find, uni, find+uni);
 }
 
 
@@ -152,7 +159,8 @@ void weighted_quick_union(int *id, int N, FILE * fp, int quietOut)
    int *sz = (int *) malloc(N * sizeof(int));
    int pairs_cnt = 0;            /* connection pairs counter */
    int links_cnt = 0;            /* number of links counter */
-
+   unsigned long int find = 0;
+   unsigned long int uni = 0;
    /* initialize; all disconnected */
    for (i = 0; i < N; i++) {
       id[i] = i;
@@ -164,8 +172,8 @@ void weighted_quick_union(int *id, int N, FILE * fp, int quietOut)
       pairs_cnt++;
 
       /* do search first */
-      for (i = p; i != id[i]; i = id[i]);
-      for (j = q; j != id[j]; j = id[j]);
+      for (i = p; i != id[i]; i = id[i], find++);
+      for (j = q; j != id[j]; j = id[j], find++);
 
       if (i == j) {
          /* already in the same set; discard */
@@ -185,12 +193,13 @@ void weighted_quick_union(int *id, int N, FILE * fp, int quietOut)
          sz[i] += sz[j];
       }
       links_cnt++;
+      uni++;
 
       if (!quietOut)
          printf(" %d %d\n", p, q);
    }
-   printf("WQU: The number of links performed is %d for %d input pairs.\n",
-          links_cnt, pairs_cnt);
+   printf("WQU: The number of links performed is %d for %d input pairs.\t Find - %lu, Union - %lu Total - %lu.\n\n\n",
+          links_cnt, pairs_cnt, find, uni, find+uni);
 }
 
 
@@ -214,7 +223,8 @@ void compressed_weighted_quick_union(int *id, int N, FILE * fp, int quietOut)
    int *sz = (int *) malloc(N * sizeof(int));
    int pairs_cnt = 0;            /* connection pairs counter */
    int links_cnt = 0;            /* number of links counter */
-
+   unsigned long int find = 0;
+   unsigned long int uni = 0;
    /* initialize; all disconnected */
    for (i = 0; i < N; i++) {
       id[i] = i;
@@ -226,8 +236,8 @@ void compressed_weighted_quick_union(int *id, int N, FILE * fp, int quietOut)
       pairs_cnt++;
 
       /* do search first */
-      for (i = p; i != id[i]; i = id[i]);
-      for (j = q; j != id[j]; j = id[j]);
+      for (i = p; i != id[i]; i = id[i], find++);
+      for (j = q; j != id[j]; j = id[j], find++);
 
       if (i == j) {
          /* already in the same set; discard */
@@ -249,21 +259,24 @@ void compressed_weighted_quick_union(int *id, int N, FILE * fp, int quietOut)
          t = i;
       }
       links_cnt++;
+      uni++;
 
       /* retrace the path and compress to the top */
       for (i = p; i != id[i]; i = x) {
          x = id[i];
          id[i] = t;
+         uni++;
       }
       for (j = q; j != id[j]; j = x) {
          x = id[j];
          id[j] = t;
+         uni++;
       }
       if (!quietOut)
          printf(" %d %d\n", p, q);
    }
-   printf("CWQU: The number of links performed is %d for %d input pairs.\n",
-          links_cnt, pairs_cnt);
+   printf("CWQU: The number of links performed is %d for %d input pair.\t Find - %lu, Union - %lu, Total - %lu.\n\n\n",
+          links_cnt, pairs_cnt, find, uni, find+uni);
 
    return;
 }

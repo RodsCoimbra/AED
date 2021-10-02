@@ -14,7 +14,7 @@
  ******************************************************************************/
 #include<stdio.h>
 #include<stdlib.h>
-
+#include <time.h>
 #include "connectivity.h"
 
 #define DEBUG 0
@@ -73,7 +73,8 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
    }
    printf("QF: The number of links performed is %d for %d input pair.\t Find - %lu, Union - %lu Total - %lu.\n\n\n",
           links_cnt, pairs_cnt, find, uni, find+uni);
-   int numeros[N], flag,j;
+   time_t inicio = time(NULL);       
+   int numeros[N], flag,j, aux = 0;
    for(int i = 0; i < N; i++){
       numeros[i] = -1;
    }
@@ -90,20 +91,22 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
       }
    }
    for(i=0;numeros[i]!= -1 && i < N; i++){
-      for(j=0, flag = 0; j < N; j++){
+      for(j=aux, flag = 0; j < N; j++){
          if(id[j] == numeros[i]){
             if (flag){
                printf("-");
             }
             else{ 
                flag = 1;
+               aux = j;
             }
             printf("%d", j);
          }
       }
       printf("\n");
    }
-   printf("Número de conjuntos: %d", conjuntos);
+   time_t fim = time(NULL);
+   printf("Número de conjuntos: %d\t tempo - %ld segundos", conjuntos, fim-inicio);
    return;
 }
 

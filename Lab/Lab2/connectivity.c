@@ -49,7 +49,7 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
    /* read while there is data */
    while (fscanf(fp, "%d %d", &p, &q) == 2) {
       pairs_cnt++;
-      find++;
+      find+=2;
       /* do search first */
       if (id[p] == id[q]) {
          /* already in the same set; discard */
@@ -61,8 +61,10 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
       
 
       /* pair has new info; must perform union */
-      for (t = id[p], i = 0; i < N; i++) {
+      uni++;
+      for (t = id[p], i = 0; i < N; i++, uni++) {
          if (id[i] == t) {
+            uni++;
             id[i] = id[q];
             uni++;
          }
@@ -106,7 +108,7 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
       printf("\n");
    }
    time_t fim = time(NULL);
-   printf("Número de conjuntos: %d\t tempo - %ld segundos", conjuntos, fim-inicio);
+   printf("Número de conjuntos: %d\t tempo - %ld segundos\n", conjuntos, fim-inicio);
    return;
 }
 
@@ -143,15 +145,15 @@ void quick_union(int *id, int N, FILE * fp, int quietOut)
       pairs_cnt++;
       i = p;
       j = q;
-
+      find+=2;
       /* do search first */
       while (i != id[i]) {
          i = id[i];
-         find++;
+         find+=2;
       }
       while (j != id[j]) {
          j = id[j];
-         find++;
+         find+=2;
       }
       if (i == j) {
          /* already in the same set; discard */
@@ -205,11 +207,10 @@ void weighted_quick_union(int *id, int N, FILE * fp, int quietOut)
    /* read while there is data */
    while (fscanf(fp, "%d %d", &p, &q) == 2) {
       pairs_cnt++;
-
       /* do search first */
       for (i = p; i != id[i]; i = id[i], find++);
       for (j = q; j != id[j]; j = id[j], find++);
-
+      find+=4;
       if (i == j) {
          /* already in the same set; discard */
 #if (DEBUG == 1)
@@ -219,16 +220,18 @@ void weighted_quick_union(int *id, int N, FILE * fp, int quietOut)
       }
 
       /* pair has new info; must perform union; pick right direction */
+      uni++;
       if (sz[i] < sz[j]) {
          id[i] = j;
          sz[j] += sz[i];
+         uni+=6;
       }
       else {
          id[j] = i;
          sz[i] += sz[j];
+         uni+=6;
       }
       links_cnt++;
-      uni++;
 
       if (!quietOut)
          printf(" %d %d\n", p, q);
@@ -271,9 +274,9 @@ void compressed_weighted_quick_union(int *id, int N, FILE * fp, int quietOut)
       pairs_cnt++;
 
       /* do search first */
-      for (i = p; i != id[i]; i = id[i], find++);
-      for (j = q; j != id[j]; j = id[j], find++);
-
+      for (i = p; i != id[i]; i = id[i], find+=3);
+      for (j = q; j != id[j]; j = id[j], find+=3);
+      
       if (i == j) {
          /* already in the same set; discard */
 #if (DEBUG == 1)

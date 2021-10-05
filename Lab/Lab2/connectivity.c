@@ -74,8 +74,7 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
    }
    printf("QF: The number of links performed is %d for %d input pair.\t Find - %lu, Union - %lu Total - %lu.\n\n\n",
           links_cnt, pairs_cnt, find, uni, find+uni);
-   /*
-   time_t inicio = time(NULL);       
+
    int numeros[N], flag,j, aux = 0;
    for(int i = 0; i < N; i++){
       numeros[i] = -1;
@@ -108,8 +107,7 @@ void quick_find(int *id, int N, FILE * fp, int quietOut)
       }
       printf("\n");
    }
-   time_t fim = time(NULL);
-   printf("Número de conjuntos: %d\t tempo - %ld segundos\n", conjuntos, fim-inicio);*/
+   printf("Número de conjuntos: %d\t", conjuntos);
    return;
 }
 

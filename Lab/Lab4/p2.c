@@ -24,8 +24,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
 /**************************************************************************
  * check_property()
  *
@@ -38,45 +36,50 @@
  *
  *************************************************************************/
 
-int check_property(int * ???, ???) {
+int check_property(int *vec, int d, int A)
+{
    int result = 0;
-
+   result = vec[A] + (2 * 3) + d;
    /* compute required property, store in result */
 
-   return(result);
+   return (result);
 }
-
-
 
 /************************************************************************
  * Main code
  ************************************************************************/
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
    FILE *fp;
    int i, j, N, result = 0, **vec;
 
-   if (argc < 2) {
+   if (argc < 2)
+   {
       fprintf(stderr, "usage: %s <filename>\n", argv[0]);
       exit(1);
    }
 
    /* open filename if possible */
    fp = fopen(argv[1], "r");
-   if (fp == ((FILE*) NULL))  {
+   if (fp == ((FILE *)NULL))
+   {
       fprintf(stderr, "error: cannot open file %s\n", argv[1]);
       exit(1);
    }
 
    result = fscanf(fp, "%d", &N);
-   if (result != 1)  {
+   if (result != 1)
+   {
       fprintf(stderr, "error: cannot read integer size\n");
       exit(1);
    }
 
-   /* allocate memory, read in the array and print it */
-   vec = ??? malloc( ??? );
-   ???
+   vec = (int **)malloc(sizeof(int *) * N);
+   for (i = 0; i < N; i++)
+   {
+      vec[i] = (int *)malloc(sizeof(int) * N);
+   }
 
    for (i = 0; i < N; i++)
       for (j = 0; j < N; j++)
@@ -84,7 +87,8 @@ int main(int argc, char *argv[]) {
 
 #ifdef DEBUG
    printf("\nOriginal array:\n ");
-   for (i = 0; i < N; i++) {
+   for (i = 0; i < N; i++)
+   {
       for (j = 0; j < N; j++)
          printf("\%d ", vec[i][j]);
       printf("\n");
@@ -92,15 +96,20 @@ int main(int argc, char *argv[]) {
 #endif
 
    /* Now process array; example below sends each row at a time */
-   for (i = 0; i < N; i++) {
-      result = check_property(vec[i], 0, N-1);
+   for (i = 0; i < N; i++)
+   {
+      result = check_property(vec[i], 0, N - 1);
       printf("result[line %d]: %d\n", i, result);
    }
 
    /* free memory */
-   ??? ;
+
+   for (i = 0; i < N; i++)
+   {
+      free(vec[i]);
+   }
+   free(vec);
+   fclose(fp);
 
    exit(0);
 }
-
-

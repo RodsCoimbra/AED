@@ -14,20 +14,12 @@
  *
  */
 
-
-
 /* Header Inclusions                                              */
-#include<stdio.h>
-#include<stdlib.h>
-
-
+#include <stdio.h>
+#include <stdlib.h>
 
 /* Include Header File with Data Type and Function Prototypes     */
-#include"VecDynList.h"
-
-
-
-
+#include "VecDynList.h"
 
 /*
  *  Data Type: _VecNode
@@ -37,14 +29,13 @@
  *                 2) value of the vector correspondinf to the inde
  *                 2) Pointer to next node of the linked list.
  */
- struct _vec_dyn {
-  int size;        /* number of table entries in this table segment */
-  int free;        /* number of non-occupied=free entries */
-  int *table;      /* pointer to table segment itself */
-  struct _vec_dyn *next;    /* next table segment in list */
+struct _vec_dyn
+{
+  int size;              /* number of table entries in this table segment */
+  int free;              /* number of non-occupied=free entries */
+  int *table;            /* pointer to table segment itself */
+  struct _vec_dyn *next; /* next table segment in list */
 };
-
-
 
 /*
  *  Function:
@@ -63,32 +54,31 @@
  */
 VecDyn *initVecDynSegment(int size)
 {
-  VecDyn * snew;
+  VecDyn *snew;
 
   /* Memory allocation                                            */
-  snew = (VecDyn *) malloc(sizeof(VecDyn));
+  snew = (VecDyn *)malloc(sizeof(VecDyn));
 
   /* Check memory allocation errors                               */
-  if( snew == ((VecDyn*)NULL) )
-    return ((VecDyn*) NULL);
+  if (snew == ((VecDyn *)NULL))
+    return ((VecDyn *)NULL);
 
   /* Memory allocation                                            */
-  snew->table = (int *) malloc(sizeof(int) * size);
+  snew->table = (int *)malloc(sizeof(int) * size);
 
   /* Check memory allocation errors                               */
-  if( snew->table == ((int*)NULL) ) {
+  if (snew->table == ((int *)NULL))
+  {
     /* if the table failed to allocate, abort everything          */
     free(snew);
-    return ((VecDyn*) NULL);
+    return ((VecDyn *)NULL);
   }
   snew->size = size;
   snew->free = size;
-  snew->next = (VecDyn*) NULL;
+  snew->next = (VecDyn *)NULL;
 
   return snew;
 }
-
-
 
 /*
  *  Function:
@@ -104,15 +94,13 @@ VecDyn *initVecDynSegment(int size)
  *  Return value:
  *    None
  */
-void freeVecDynSegment(VecDyn * vecDyn)
+void freeVecDynSegment(VecDyn *vecDyn)
 {
   free(vecDyn->table);
   free(vecDyn);
 
   return;
 }
-
-
 
 /*
  *  Function:
@@ -128,19 +116,18 @@ void freeVecDynSegment(VecDyn * vecDyn)
  *    Returns the pointer to a new dynamic table
  *      (VecDyn *) vecDyn
  */
-VecDyn * initVecDyn()
+VecDyn *initVecDyn()
 {
   VecDyn *new;
 
   /* Memory allocation for table data */
   new = initVecDynSegment(1);
 
-  if( new == ((VecDyn*)NULL) )
-    return ((VecDyn*) NULL);
+  if (new == ((VecDyn *)NULL))
+    return ((VecDyn *)NULL);
 
   return new;
 }
-
 
 /*
  *  Function:
@@ -156,12 +143,13 @@ VecDyn * initVecDyn()
  *  Return value:
  *    None
  */
-void freeVecDyn(VecDyn * vecDyn)
+void freeVecDyn(VecDyn *vecDyn)
 {
   VecDyn *aux;
 
   /* Cycle from the first to the last element                     */
-  for(aux = vecDyn; aux != NULL; aux = vecDyn) {
+  for (aux = vecDyn; aux != NULL; aux = vecDyn)
+  {
     /* Keep trace of the next node                                */
     vecDyn = aux->next;
 
@@ -171,8 +159,6 @@ void freeVecDyn(VecDyn * vecDyn)
 
   return;
 }
-
-
 
 /*
  *  Function:
@@ -189,13 +175,11 @@ void freeVecDyn(VecDyn * vecDyn)
  *  Return value:
  *    Returns the size of the dynamic table
  */
-int sizeVecDyn(VecDyn * vecDyn)
+int sizeVecDyn(VecDyn *vecDyn)
 {
 
-  return (2*vecDyn->size - 1);
+  return (2 * vecDyn->size - 1);
 }
-
-
 
 /*
  *  Function:
@@ -212,12 +196,10 @@ int sizeVecDyn(VecDyn * vecDyn)
  *   The number of elements
  *
  */
-int occupancyVecDyn(VecDyn * vecDyn)
+int occupancyVecDyn(VecDyn *vecDyn)
 {
-  return (2*vecDyn->size - 1 - vecDyn->free);
+  return (2 * vecDyn->size - 1 - vecDyn->free);
 }
-
-
 
 /*
  *  Function:
@@ -239,14 +221,28 @@ int occupancyVecDyn(VecDyn * vecDyn)
  *    or NULL if the insertion failed
  *
  */
-VecDyn * insertVecDyn(VecDyn * vecDyn, int val)
+VecDyn *insertVecDyn(VecDyn *vecDyn, int val)
 {
-  VecDyn *new = vecDyn;
+  VecDyn *new = vecDyn, *aux = vecDyn;
 
+  if (new == NULL)
+  {
+    new = initVecDyn();
+    new->table[0] = val;
+  }
+  else if (sizeVecDyn(new) == occupancyVecDyn(new))
+  {
+    new = initVecDynSegment(sizeVecDyn(new) + 1);
+    new->table[0] = val;
+    new->next = aux;
+  }
+  else
+  {
+    new->table[new->size - new->free] = val;
+  }
+  new->free--;
   return new;
 }
-
-
 
 /*
  *  Function:
@@ -267,29 +263,30 @@ VecDyn * insertVecDyn(VecDyn * vecDyn, int val)
  *    or function will exit(1) if the index position is invalid
  *
  */
-int getVecDynValue(VecDyn * vecDyn, int index)
+int getVecDynValue(VecDyn *vecDyn, int index)
 {
   int val;
 
   /* check if outside table bounds */
-  if ((index < 0) || (index > (2 * vecDyn->size - 2) - venDyn->free))
+  if ((index < 0) || (index > (2 * vecDyn->size - 2) - vecDyn->free))
     exit(1);
 
   /* determine the right segment */
-  for(;;) {
-    if (index < (vecDyn->size - 1)) {
+  for (;;)
+  {
+    if (index < (vecDyn->size - 1))
+    {
       vecDyn = vecDyn->next;
-    } else {
-      val = vecDyn->table[index - (vecDyn->size-1)];
+    }
+    else
+    {
+      val = vecDyn->table[index - (vecDyn->size - 1)];
       break;
     }
-
   }
 
   return val;
 }
-
-
 
 /*
  *  Function:
@@ -311,12 +308,26 @@ int getVecDynValue(VecDyn * vecDyn, int index)
  *      (void)
  *
  */
-void modifyVecDynValue(VecDyn * vecDyn, int idx, int val)
+
+void modifyVecDynValue(VecDyn *vecDyn, int idx, int val)
 {
-
-   return;
+  VecDyn *new = vecDyn;
+  if (occupancyVecDyn(new) < idx + 1 || idx < 0)
+  {
+    printf("Index inválido\n");
+    exit(1);
+  }
+  while (sizeVecDyn(new) != 1)
+  {
+    if (sizeVecDyn(new->next) < idx + 1)
+    {
+      break;
+    }
+    new = new->next;
+  }
+  new->table[idx + 1 - new->size] = val;
+  return;
 }
-
 
 /*
  *  Function:
@@ -334,13 +345,12 @@ void modifyVecDynValue(VecDyn * vecDyn, int idx, int val)
  *      (int)
  *
  */
-int maxVecDynValue(VecDyn * vecDyn)
+int maxVecDynValue(VecDyn *vecDyn)
 {
-   int max = 0;
+  int max = 0;
 
-   return(max);
+  return (max);
 }
-
 
 /*
  *  Function:
@@ -358,15 +368,12 @@ int maxVecDynValue(VecDyn * vecDyn)
  *      (int)
  *
  */
-int minVecDynValue(VecDyn * vecDyn)
+int minVecDynValue(VecDyn *vecDyn)
 {
-   int min = 0;
+  int min = 0;
 
-   return(min);
+  return (min);
 }
-
-
-
 
 /*
  *  Function:
@@ -384,13 +391,12 @@ int minVecDynValue(VecDyn * vecDyn)
  *      (VecDyn *) vecDyn
  *
  */
-VecDyn *shiftLeftVecDyn(VecDyn * vecDyn)
+VecDyn *shiftLeftVecDyn(VecDyn *vecDyn)
 {
-   VecDyn *result = (VecDyn*) NULL;
+  VecDyn *result = (VecDyn *)NULL;
 
-   return(result);
+  return (result);
 }
-
 
 /*
  *  Function:
@@ -410,14 +416,12 @@ VecDyn *shiftLeftVecDyn(VecDyn * vecDyn)
  *      (VecDyn *) vecDyn
  *
  */
-VecDyn *shiftRightVecDyn(VecDyn * vecDyn, int value)
+VecDyn *shiftRightVecDyn(VecDyn *vecDyn, int value)
 {
-   VecDyn *result = (VecDyn*) NULL;
+  VecDyn *result = (VecDyn *)NULL;
 
-   return(result);
+  return (result);
 }
-
-
 
 /*
  *  Function:
@@ -433,24 +437,25 @@ VecDyn *shiftRightVecDyn(VecDyn * vecDyn, int value)
  *  Return value:
  *    None.
  */
-void printVecDynRecur(VecDyn * vecDyn)
+void printVecDynRecur(VecDyn *vecDyn)
 {
-   int i;
+  int i;
 
-   /* recursive print implementation */
-   if(vecDyn->next != ((VecDyn*)NULL)) {
-      printVecDynRecur(vecDyn->next);
-   }
+  /* recursive print implementation */
+  if (vecDyn->next != ((VecDyn *)NULL))
+  {
+    printVecDynRecur(vecDyn->next);
+  }
 
-   /* Print current segment of dynamic table                       */
-   for ( i = 0; i < (vecDyn->size - vecDyn->free); i++) {
-      printf("%d ", vecDyn->table[i]);
-   }
+  /* Print current segment of dynamic table                       */
+  for (i = 0; i < (vecDyn->size - vecDyn->free); i++)
+  {
+    printf("%d ", vecDyn->table[i]);
+  }
 
-   printf("\t");
-   return;
+  printf("\t");
+  return;
 }
-
 
 /*
  *  Function:
@@ -466,18 +471,18 @@ void printVecDynRecur(VecDyn * vecDyn)
  *  Return value:
  *    None.
  */
-void printVecDyn(VecDyn * vecDyn)
+void printVecDyn(VecDyn *vecDyn)
 {
-   /* recursive print implementation */
-   if (vecDyn != ((VecDyn*)NULL)) {
-      printVecDynRecur(vecDyn);
-   }
+  /* recursive print implementation */
+  if (vecDyn != ((VecDyn *)NULL))
+  {
+    printVecDynRecur(vecDyn);
+  }
 
-   printf("\n");
+  printf("\n");
 
-   return;
+  return;
 }
-
 
 /*
  *  Function:
@@ -493,9 +498,9 @@ void printVecDyn(VecDyn * vecDyn)
  *  Return value:
  *    None.
  */
-void deleteVecDyn(VecDyn * vecDyn)
+void deleteVecDyn(VecDyn *vecDyn)
 {
-   freeVecDyn(vecDyn);
+  freeVecDyn(vecDyn);
 
-   return;
+  return;
 }

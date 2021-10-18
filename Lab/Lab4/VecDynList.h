@@ -39,12 +39,9 @@
  *
  */
 
-
 /* Prevent multiple inclusions                                      */
 #ifndef VecDynListHeader
 #define VecDynListHeader
-
-
 
 /*
  *  Data type: Vec
@@ -54,8 +51,6 @@
  *              vector.
  */
 typedef struct _vec_dyn VecDyn;
-
-
 
 /*
  *  Function:
@@ -70,9 +65,7 @@ typedef struct _vec_dyn VecDyn;
  *  Return value:
  *    Returns the pointer to a new dynamic table
  */
-VecDyn * initVecDyn();
-
-
+VecDyn *initVecDyn();
 
 /*
  *  Function:
@@ -88,25 +81,7 @@ VecDyn * initVecDyn();
  *  Return value:
  *    None
  */
-void freeVecDyn(VecDyn * vecDyn);
-
-
-/*
- *  Function:
- *    sizeVecDyn
- *
- *  Description:
- *    Return size of memory entries allocated by the dynamic table
- *
- *  Arguments:
- *    Pointer to the dynamic table:
- *      (VecDyn *) vecDyn
- *
- *  Return value:
- *    int size
- */
-int sizeVecDyn(VecDyn * vecDyn);
-
+void freeVecDyn(VecDyn *vecDyn);
 
 /*
  *  Function:
@@ -122,8 +97,23 @@ int sizeVecDyn(VecDyn * vecDyn);
  *  Return value:
  *    int size
  */
-int sizeVecDyn(VecDyn * vecDyn);
+int sizeVecDyn(VecDyn *vecDyn);
 
+/*
+ *  Function:
+ *    sizeVecDyn
+ *
+ *  Description:
+ *    Return size of memory entries allocated by the dynamic table
+ *
+ *  Arguments:
+ *    Pointer to the dynamic table:
+ *      (VecDyn *) vecDyn
+ *
+ *  Return value:
+ *    int size
+ */
+int sizeVecDyn(VecDyn *vecDyn);
 
 /*
  *  Function:
@@ -139,9 +129,7 @@ int sizeVecDyn(VecDyn * vecDyn);
  *  Return value:
  *    number of occupied positions in the table
  */
-int occupancyVecDyn(VecDyn * vecDyn);
-
-
+int occupancyVecDyn(VecDyn *vecDyn);
 
 /*
  *  Function:
@@ -164,8 +152,7 @@ int occupancyVecDyn(VecDyn * vecDyn);
  *  Note:
  *    Insert is in the first open position from 0.
  */
-VecDyn *insertVecDyn(VecDyn * vecDyn, int val);
-
+VecDyn *insertVecDyn(VecDyn *vecDyn, int val);
 
 /*
  *  Function:
@@ -186,9 +173,7 @@ VecDyn *insertVecDyn(VecDyn * vecDyn, int val);
  *    or function will exit(1) if the index position is invalid
  *
  */
-int getVecDynValue(VecDyn * vecDyn, int index);
-
-
+int getVecDynValue(VecDyn *vecDyn, int index);
 
 /*
  *  Function:
@@ -210,9 +195,7 @@ int getVecDynValue(VecDyn * vecDyn, int index);
  *      (void)
  *
  */
-void modifyVecDynValue(VecDyn * vecDyn, int idx, int val);
-
-
+void modifyVecDynValue(VecDyn *vecDyn, int idx, int val);
 
 /*
  *  Function:
@@ -230,8 +213,7 @@ void modifyVecDynValue(VecDyn * vecDyn, int idx, int val);
  *      (int)
  *
  */
-int maxVecDynValue(VecDyn * vecDyn);
-
+int maxVecDynValue(VecDyn *vecDyn);
 
 /*
  *  Function:
@@ -249,8 +231,7 @@ int maxVecDynValue(VecDyn * vecDyn);
  *      (int)
  *
  */
-int minVecDynValue(VecDyn * vecDyn);
-
+int minVecDynValue(VecDyn *vecDyn);
 
 /*
  *  Function:
@@ -268,9 +249,7 @@ int minVecDynValue(VecDyn * vecDyn);
  *      (VecDyn *) vecDyn
  *
  */
-VecDyn *shiftLeftVecDyn(VecDyn * vecDyn);
-
-
+VecDyn *shiftLeftVecDyn(VecDyn *vecDyn);
 
 /*
  *  Function:
@@ -290,9 +269,7 @@ VecDyn *shiftLeftVecDyn(VecDyn * vecDyn);
  *      (VecDyn *) vecDyn
  *
  */
-VecDyn *shiftRightVecDyn(VecDyn * vecDyn, int value);
-
-
+VecDyn *shiftRightVecDyn(VecDyn *vecDyn, int value);
 
 /*
  *  Function:
@@ -308,8 +285,7 @@ VecDyn *shiftRightVecDyn(VecDyn * vecDyn, int value);
  *  Return value:
  *    0 in case of success, 1 in case of failure
  */
-void printVecDyn(VecDyn * vecDyn);
-
+void printVecDyn(VecDyn *vecDyn);
 
 /*
  *  Function:
@@ -325,8 +301,7 @@ void printVecDyn(VecDyn * vecDyn);
  *  Return value:
  *    None.
  */
-void deleteVecDyn(VecDyn * vecDyn);
-
+void deleteVecDyn(VecDyn *vecDyn);
 
 /* End of: Protect multiple inclusions                              */
 #endif

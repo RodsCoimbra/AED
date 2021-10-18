@@ -36,11 +36,16 @@
  *
  *************************************************************************/
 
-int check_property(int *vec, int d, int A)
+int check_property(int *vec, int a, int sz)
 {
    int result = 0;
-   result = vec[A] + (2 * 3) + d;
-   /* compute required property, store in result */
+   for (; a <= sz; a++)
+   {
+      if (vec[a] >= result)
+      {
+         result = vec[a];
+      }
+   }
 
    return (result);
 }

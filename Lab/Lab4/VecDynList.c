@@ -311,21 +311,20 @@ int getVecDynValue(VecDyn *vecDyn, int index)
 
 void modifyVecDynValue(VecDyn *vecDyn, int idx, int val)
 {
-  VecDyn *new = vecDyn;
-  if (occupancyVecDyn(new) < idx + 1 || idx < 0)
-  {
-    printf("Index inválido\n");
+  if ((idx < 0) || (idx > (2 * vecDyn->size - 2) - vecDyn->free))
     exit(1);
-  }
-  while (sizeVecDyn(new) != 1)
+  for (;;)
   {
-    if (sizeVecDyn(new->next) < idx + 1)
+    if (idx < (vecDyn->size - 1))
     {
+      vecDyn = vecDyn->next;
+    }
+    else
+    {
+      vecDyn->table[idx - (vecDyn->size - 1)] = val;
       break;
     }
-    new = new->next;
   }
-  new->table[idx + 1 - new->size] = val;
   return;
 }
 

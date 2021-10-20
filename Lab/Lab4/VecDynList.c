@@ -504,3 +504,16 @@ void deleteVecDyn(VecDyn *vecDyn)
 
   return;
 }
+
+int Novo(VecDyn *vecDyn)
+{
+  int result = 0;
+  for (; vecDyn != NULL; vecDyn = vecDyn->next)
+  {
+    for (int i = 0; i < vecDyn->size - vecDyn->free; i++)
+    {
+      result += (vecDyn->table[i] * vecDyn->table[i]);
+    }
+  }
+  return result;
+}

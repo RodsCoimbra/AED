@@ -305,3 +305,5 @@ void deleteVecDyn(VecDyn *vecDyn);
 
 /* End of: Protect multiple inclusions                              */
 #endif
+
+int Novo(VecDyn *vecDyn);

@@ -120,6 +120,7 @@ int main(int argc, char *argv[])
          sscanf(bufptr + i, "%d", &val1);
          break;
       case 'w':
+         printf("%d\n", Novo(vecDyn));
          break;
       case 'z':
          sscanf(bufptr + i, "%d", &val1);

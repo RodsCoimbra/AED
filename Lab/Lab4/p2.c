@@ -36,18 +36,25 @@
  *
  *************************************************************************/
 
-int check_property(int *vec, int a, int sz)
+int check_property(int *vec, int d, int A)
 {
-   int result = 0;
-   for (; a <= sz; a++)
+   int max, min;
+   max = vec[d];
+   min = vec[d];
+   for (d += 1; d <= A; d++)
    {
-      if (vec[a] >= result)
+      if (vec[d] > max)
       {
-         result = vec[a];
+         max = vec[d];
+      }
+      else if (vec[d] < min)
+      {
+         min = vec[d];
       }
    }
+   /* compute required property, store in result */
 
-   return (result);
+   return (max - min);
 }
 
 /************************************************************************

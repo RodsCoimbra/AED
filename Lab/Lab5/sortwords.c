@@ -16,16 +16,22 @@
 #include <string.h>
 #include <stdio.h>
 
-
 #include "word.h"
 
-enum sort_order {ascending, descending};
+enum sort_order
+{
+   ascending,
+   descending
+};
 
-enum sort_criteria {alphabetic, length, occurrences};
+enum sort_criteria
+{
+   alphabetic,
+   length,
+   occurrences
+};
 
-
-int OP_CNT = 0;     /* global variable, to simplify complexity assessment */
-
+int OP_CNT = 0; /* global variable, to simplify complexity assessment */
 
 /******************************************************************************
  * sort ()
@@ -44,17 +50,19 @@ int OP_CNT = 0;     /* global variable, to simplify complexity assessment */
  *           (*less)(Item,Item) - abstract type comparison function
  *****************************************************************************/
 
-void sort(Item a[], int l, int r, int (*less) (Item, Item))
+void sort(Item a[], int l, int r, int (*less)(Item, Item))
 {
    int i, j;
 
    /*==== TODO ====*/
    /* use    OP_CNT */
 
-   for (i = l + 1; i <= r; i++) {
+   for (i = l + 1; i <= r; i++)
+   {
       Item v = a[i];
       j = i;
-      while (j > l && less(v, a[j - 1])) {
+      while (j > l && less(v, a[j - 1]))
+      {
          a[j] = a[j - 1];
          j--;
       }
@@ -63,25 +71,25 @@ void sort(Item a[], int l, int r, int (*less) (Item, Item))
    return;
 }
 
-
 /******************************************************************************
-* main ()
-*
-*****************************************************************************/
+ * main ()
+ *
+ *****************************************************************************/
 
 int main(int argc, char **argv)
 {
-   int TnumWords;              /* total number of words in input file */
-   int numWords;               /* number of distint words in input file */
-   Tabword tabword;              /* table holding the structure */
+   int TnumWords;   /* total number of words in input file */
+   int numWords;    /* number of distint words in input file */
+   Tabword tabword; /* table holding the structure */
 
    /* default initialization for alfabetic order and ascending */
    enum sort_criteria criterio = alphabetic;
-   enum sort_order sentido  = ascending;
+   enum sort_order sentido = ascending;
    char *file = argv[1];
 
-   argv++;             /* get past prog and file names */
-   while (*(++argv)) {
+   argv++; /* get past prog and file names */
+   while (*(++argv))
+   {
       if (strcmp(*argv, "-alfabetica") == 0)
          criterio = alphabetic;
       else if (strcmp(*argv, "-ocorrencias") == 0)
@@ -92,7 +100,8 @@ int main(int argc, char **argv)
          sentido = ascending;
       else if (strcmp(*argv, "-d") == 0)
          sentido = descending;
-      else {
+      else
+      {
          fprintf(stderr, "Wrong arguments\n");
          exit(3);
       }
@@ -108,11 +117,12 @@ int main(int argc, char **argv)
    /*  Call the sorting function using as argument the
        appropriate comparison function selected by user option */
 
-   if ((criterio == alphabetic) && (sentido == ascending)) {
+   if ((criterio == alphabetic) && (sentido == ascending))
+   {
 
       /*==== TODO ====*/
-      /* -- sort(....); -- */
-
+      /* -- sort(....); --       FEITO*/
+      sort((Item *)tabword, 0, numWords - 1, &LessAlphabetic);
    }
    /* other user options */
    /*==== TODO ====*/
@@ -128,6 +138,6 @@ int main(int argc, char **argv)
    /*==== TODO ====*/
 
    /* ------------------------------------------------------------ */
-
+   free(t); // está ma função de AllocWordArray
    return 0;
 }

@@ -76,87 +76,87 @@ void sort(Item a[], int l, int r, int (*less)(Item, Item))
  *
  *****************************************************************************/
 
-      int main(int argc, char **argv)
+int main(int argc, char **argv)
+{
+   int TnumWords;   /* total number of words in input file */
+   int numWords;    /* number of distint words in input file */
+   Tabword tabword; /* table holding the structure */
+
+   /* default initialization for alfabetic order and ascending */
+   enum sort_criteria criterio = alphabetic;
+   enum sort_order sentido = ascending;
+   char *file = argv[1];
+
+   argv++; /* get past prog and file names */
+   while (*(++argv))
+   {
+      if (strcmp(*argv, "-alfabetica") == 0)
+         criterio = alphabetic;
+      else if (strcmp(*argv, "-ocorrencias") == 0)
+         criterio = occurrences;
+      else if (strcmp(*argv, "-comprimento") == 0)
+         criterio = length;
+      else if (strcmp(*argv, "-a") == 0)
+         sentido = ascending;
+      else if (strcmp(*argv, "-d") == 0)
+         sentido = descending;
+      else
       {
-         int TnumWords;   /* total number of words in input file */
-         int numWords;    /* number of distint words in input file */
-         Tabword tabword; /* table holding the structure */
-
-         /* default initialization for alfabetic order and ascending */
-         enum sort_criteria criterio = alphabetic;
-         enum sort_order sentido = ascending;
-         char *file = argv[1];
-
-         argv++; /* get past prog and file names */
-         while (*(++argv))
-         {
-            if (strcmp(*argv, "-alfabetica") == 0)
-               criterio = alphabetic;
-            else if (strcmp(*argv, "-ocorrencias") == 0)
-               criterio = occurrences;
-            else if (strcmp(*argv, "-comprimento") == 0)
-               criterio = length;
-            else if (strcmp(*argv, "-a") == 0)
-               sentido = ascending;
-            else if (strcmp(*argv, "-d") == 0)
-               sentido = descending;
-            else
-            {
-               fprintf(stderr, "Wrong arguments\n");
-               exit(3);
-            }
-         }
-         TnumWords = AllocWordArray(&tabword, file);
-         printf("Total number of words: %d\n", TnumWords);
-
-         numWords = FillInWordArray(tabword, file);
-         printf("Number of different words = %d\n", numWords);
-
-         OP_CNT = 0;
-
-         /*  Call the sorting function using as argument the
-             appropriate comparison function selected by user option */
-         if ((criterio == alphabetic) && (sentido == ascending))
-         {
-            sort((Item *)tabword, 0, numWords - 1, &LessAlphabetic);
-         }
-         else if (((criterio == alphabetic) && (sentido == descending)))
-         {
-            sort((Item *)tabword, 0, numWords - 1, &MaisAlphabetic);
-         }
-         else if ((criterio == occurrences) && (sentido == ascending))
-         {
-            sort((Item *)tabword, 0, numWords - 1, &Lessoccurrence);
-         }
-         else if (((criterio == occurrences) && (sentido == descending)))
-         {
-            sort((Item *)tabword, 0, numWords - 1, &Maisoccurrence);
-         }
-         else if ((criterio == length) && (sentido == ascending))
-         {
-            sort((Item *)tabword, 0, numWords - 1, &Lesslength);
-         }
-         else if (((criterio == length) && (sentido == descending)))
-         {
-            sort((Item *)tabword, 0, numWords - 1, &Maislength);
-         }
-
-         /* other user options */
-         /*==== TODO ====*/
-
-         /* ---------------------------------------- */
-         printf("Accesses count for sort: %d\n", OP_CNT);
-
-         WriteFile(tabword, file, numWords);
-         /*  printf("Number of different words: %d\n", n_palavras);  */
-
-         /* -- Insert code to call functions to free allocated memory -- */
-
-         /*==== TODO ====*/
-
-         /* ------------------------------------------------------------ */
-         FreeWordArray(&tabword, numWords);
-
-         printf("\n\n");
-         return 0;
+         fprintf(stderr, "Wrong arguments\n");
+         exit(3);
       }
+   }
+   TnumWords = AllocWordArray(&tabword, file);
+   printf("Total number of words: %d\n", TnumWords);
+
+   numWords = FillInWordArray(tabword, file);
+   printf("Number of different words = %d\n", numWords);
+
+   OP_CNT = 0;
+
+   /*  Call the sorting function using as argument the
+       appropriate comparison function selected by user option */
+   if ((criterio == alphabetic) && (sentido == ascending))
+   {
+      sort((Item *)tabword, 0, numWords - 1, &LessAlphabetic);
+   }
+   else if (((criterio == alphabetic) && (sentido == descending)))
+   {
+      sort((Item *)tabword, 0, numWords - 1, &MaisAlphabetic);
+   }
+   else if ((criterio == occurrences) && (sentido == ascending))
+   {
+      sort((Item *)tabword, 0, numWords - 1, &Lessoccurrence);
+   }
+   else if (((criterio == occurrences) && (sentido == descending)))
+   {
+      sort((Item *)tabword, 0, numWords - 1, &Maisoccurrence);
+   }
+   else if ((criterio == length) && (sentido == ascending))
+   {
+      sort((Item *)tabword, 0, numWords - 1, &Lesslength);
+   }
+   else if (((criterio == length) && (sentido == descending)))
+   {
+      sort((Item*)tabword, 0, numWords - 1, &Maislength);
+   }
+
+   /* other user options */
+   /*==== TODO ====*/
+
+   /* ---------------------------------------- */
+   printf("Accesses count for sort: %d\n", OP_CNT);
+
+   WriteFile(tabword, file, numWords);
+   /*  printf("Number of different words: %d\n", n_palavras);  */
+
+   /* -- Insert code to call functions to free allocated memory -- */
+
+   /*==== TODO ====*/
+
+   /* ------------------------------------------------------------ */
+   FreeWordArray(&tabword, numWords);
+
+   printf("\n\n");
+   return 0;
+}

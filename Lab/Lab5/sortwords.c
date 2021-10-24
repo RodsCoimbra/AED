@@ -54,18 +54,18 @@ void sort(Item a[], int l, int r, int (*less)(Item, Item))
 {
    int i, j;
 
-   /*==== TODO ====*/
-   /* use    OP_CNT */
-
    for (i = l + 1; i <= r; i++)
    {
       Item v = a[i];
+      OP_CNT++;
       j = i;
       while (j > l && less(v, a[j - 1]))
       {
+         OP_CNT += 5; /*vem dois do less*/
          a[j] = a[j - 1];
          j--;
       }
+      OP_CNT += 4; /*vem dois do less*/
       a[j] = v;
    }
    return;
@@ -116,14 +116,31 @@ int main(int argc, char **argv)
 
    /*  Call the sorting function using as argument the
        appropriate comparison function selected by user option */
-
    if ((criterio == alphabetic) && (sentido == ascending))
    {
-
-      /*==== TODO ====*/
-      /* -- sort(....); --       FEITO*/
       sort((Item *)tabword, 0, numWords - 1, &LessAlphabetic);
    }
+   else if (((criterio == alphabetic) && (sentido == descending)))
+   {
+      sort((Item *)tabword, 0, numWords - 1, &MaisAlphabetic);
+   }
+   else if ((criterio == occurrences) && (sentido == ascending))
+   {
+      sort((Item *)tabword, 0, numWords - 1, &Lessoccurrence);
+   }
+   else if (((criterio == occurrences) && (sentido == descending)))
+   {
+      sort((Item *)tabword, 0, numWords - 1, &Maisoccurrence);
+   }
+   else if ((criterio == length) && (sentido == ascending))
+   {
+      sort((Item *)tabword, 0, numWords - 1, &Lesslength);
+   }
+   else if (((criterio == length) && (sentido == descending)))
+   {
+      sort((Item *)tabword, 0, numWords - 1, &Maislength);
+   }
+
    /* other user options */
    /*==== TODO ====*/
 
@@ -138,6 +155,8 @@ int main(int argc, char **argv)
    /*==== TODO ====*/
 
    /* ------------------------------------------------------------ */
-   free(t); // está ma função de AllocWordArray
+   FreeWordArray(&tabword, numWords);
+
+   printf("\n\n");
    return 0;
 }

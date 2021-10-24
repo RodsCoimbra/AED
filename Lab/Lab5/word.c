@@ -178,8 +178,7 @@ int FillInWordArray(Tabword t, char *file)
 
          if (t[numWords] == NULL)
             ExitMemError(3);
-         t[numWords]->word = (char *)
-             malloc(sizeof(char) * (strlen(locword) + 1));
+         t[numWords]->word = (char *)malloc(sizeof(char) * (strlen(locword) + 1));
 
          if (t[numWords]->word == NULL)
             ExitMemError(4);
@@ -215,8 +214,7 @@ void WriteFile(Tabword t, char *ficheiro, int numWords)
    char *word;
    int i = 0;
 
-   word = (char *)malloc(
-       (strlen(ficheiro) + strlen(".palavras") + 1) * sizeof(char));
+   word = (char *)malloc((strlen(ficheiro) + strlen(".palavras") + 1) * sizeof(char));
    if (word == NULL)
    {
       fprintf(stderr,
@@ -252,9 +250,14 @@ void WriteFile(Tabword t, char *ficheiro, int numWords)
 void FreeWordArray(Tabword *t, int numWords)
 {
    /** -- free all memory allocated for table of words -- */
-   free(t);
+   int i;
+   for (i = 0; i < numWords; i++)
+   {
+      free(((*t)[i])->word);
+      free((*t)[i]);
+   }
+   free(*t);
 
-   /*==== TODO ====*/
 
    return;
 }
@@ -277,16 +280,35 @@ int LessAlphabetic(Item a, Item b)
       return 0;
 }
 
-/*************************************************************************
- **  -- Add comparison functions for the remaining criteria --
- *************************************************************************/
-
-/*==== TODO ====*/
+int MaisAlphabetic(Item a, Item b)
+{
+   return LessAlphabetic(b, a);
+}
 
 int Lessoccurrence(Item a, Item b)
 {
-   if (strcasecmp(((Sword *)a)->numUses, ((Sword *)b)->numUses) < 0)
+   /*OP_CNT+=2;*/
+   if (((Sword *)a)->numUses < ((Sword *)b)->numUses)
       return 1;
    else
       return 0;
+}
+
+int Maisoccurrence(Item a, Item b)
+{
+   return Lessoccurrence(b, a);
+}
+
+int Lesslength(Item a, Item b)
+{
+   /*OP_CNT+=2;*/
+   if (strlen(((Sword *)a)->word) < strlen(((Sword *)b)->word))
+      return 1;
+   else
+      return 0;
+}
+
+int Maislength(Item a, Item b)
+{
+   return Lesslength(b, a);
 }

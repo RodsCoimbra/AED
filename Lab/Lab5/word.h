@@ -37,4 +37,11 @@ int LessAlphabetic(Item a, Item b);
 int LessNumUses(Item a, Item b);
 int LessLength(Item a, Item b);
 
+int Lessoccurrence(Item a, Item b);
+int Maisoccurrence(Item a, Item b);
+int Lesslength(Item a, Item b);
+int Maislength(Item a, Item b);
+int MaisAlphabetic(Item a, Item b);
+
+
 #endif

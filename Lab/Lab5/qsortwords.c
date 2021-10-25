@@ -49,12 +49,13 @@ int OP_CNT = 0; /* global variable, to simplify complexity assessment */
  *           r - last element of the array to be sorted
  *           (*less)(Item,Item) - abstract type comparison function
  *****************************************************************************/
-void exch(int *a, int *b)
-{
-    int t = *a;
-    *a = *b;
-    *b = t;
-}
+#define exch(a, b)  \
+    {               \
+        Item t = a; \
+        a = b;      \
+        b = t;      \
+    }
+#define eq(a, b) (!less(a, b) && !less(b, a))
 
 void sort(Item a[], int l, int r, int (*less)(Item, Item))
 {
@@ -72,24 +73,28 @@ void sort(Item a[], int l, int r, int (*less)(Item, Item))
     {
         OP_CNT++;
         while (less(a[++i], v))
+        {
             OP_CNT++;
+        }
         OP_CNT++;
         while (less(v, a[--j]))
+        {
             OP_CNT++;
-        if (j == l)
-            break;
+            if (j == l)
+                break;
+        }
         if (i >= j)
             break;
         exch((a[i]), (a[j]));
         OP_CNT += 4;
-        if (!less(a[i], v) && !less(v, a[i]))
+        if (eq(a[i], v))
         {
             p++;
             exch((a[p]), (a[i]));
             OP_CNT += 2;
         }
         OP_CNT += 2;
-        if (!less(a[j], v) && !less(v, a[j]))
+        if (eq(a[j], v))
         {
             q--;
             exch((a[q]), (a[j]));

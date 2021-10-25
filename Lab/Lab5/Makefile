@@ -43,7 +43,7 @@ clean:
 FILES = $(shell ls test/*.txt)
 
 VALG = valgrind --leak-check=full
-Param =-alfabetica	#comprimento ocorrencias alfabetica
+Param =-alfabetica 	#comprimento ocorrencias alfabetica
 Param2 =-a
 
 t:

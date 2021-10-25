@@ -43,13 +43,15 @@ clean:
 FILES = $(shell ls test/*.txt)
 
 VALG = valgrind --leak-check=full
+Param =-alfabetica	#comprimento ocorrencias alfabetica
+Param2 =-d
 
 t:
-	for F in ${FILES}; do  ./sortwords $${F} ; done;
+	for F in ${FILES}; do  ./sortwords $${F} ${Param} ${Param2} ; done;
 
 
 tv:
-	for F in ${FILES}; do ${VALG} ./sortwords $${F} ; done;
+	for F in ${FILES}; do ${VALG} ./sortwords $${F} ${Param} ${Param2}; done;
 
 
 tt:
@@ -58,11 +60,11 @@ tt:
 
 
 qt:
-	for F in ${FILES}; do  ./qsortwords $${F} ; done;
+	for F in ${FILES}; do  ./qsortwords $${F} ${Param} ${Param2}; done;
 
 
 qtv:
-	for F in ${FILES}; do ${VALG} ./qsortwords $${F} ; done;
+	for F in ${FILES}; do ${VALG} ./qsortwords $${F} ${Param} ${Param2}; done;
 
 
 qtt:

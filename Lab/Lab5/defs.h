@@ -11,5 +11,4 @@
 #define _DEFS_H_
 
 typedef void *Item;
-
 #endif

@@ -44,7 +44,7 @@ FILES = $(shell ls test/*.txt)
 
 VALG = valgrind --leak-check=full
 Param =-alfabetica	#comprimento ocorrencias alfabetica
-Param2 =-d
+Param2 =-a
 
 t:
 	for F in ${FILES}; do  ./sortwords $${F} ${Param} ${Param2} ; done;

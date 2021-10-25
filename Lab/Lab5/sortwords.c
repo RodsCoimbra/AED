@@ -138,7 +138,7 @@ int main(int argc, char **argv)
    }
    else if (((criterio == length) && (sentido == descending)))
    {
-      sort((Item*)tabword, 0, numWords - 1, &Maislength);
+      sort((Item *)tabword, 0, numWords - 1, &Maislength);
    }
 
    /* other user options */

@@ -61,11 +61,11 @@ void sort(Item a[], int l, int r, int (*less)(Item, Item))
       j = i;
       while (j > l && less(v, a[j - 1]))
       {
-         OP_CNT += 5; /*vem dois do less*/
+         OP_CNT += 3; /*vem dois do less*/
          a[j] = a[j - 1];
          j--;
       }
-      OP_CNT += 4; /*vem dois do less*/
+      OP_CNT += 2; /*vem dois do less*/
       a[j] = v;
    }
    return;
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
    OP_CNT = 0;
 
    /*  Call the sorting function using as argument the
-       appropriate comparison function selected by user option */
+        appropriate comparison function selected by user option */
    if ((criterio == alphabetic) && (sentido == ascending))
    {
       sort((Item *)tabword, 0, numWords - 1, &LessAlphabetic);
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
    /*==== TODO ====*/
 
    /* ---------------------------------------- */
-   printf("Accesses count for sort: %d\n", OP_CNT);
+   printf("\n\n");
 
    WriteFile(tabword, file, numWords);
    /*  printf("Number of different words: %d\n", n_palavras);  */
@@ -157,6 +157,5 @@ int main(int argc, char **argv)
    /* ------------------------------------------------------------ */
    FreeWordArray(&tabword, numWords);
 
-   printf("\n\n");
    return 0;
 }

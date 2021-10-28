@@ -72,47 +72,47 @@ void sort(Item a[], int l, int r, int (*less)(Item, Item))
     for (;;)
     {
         OP_CNT++;
-        while (less(a[++i], v)) //Começa no inicio e procura até encontrar um número maior ou igual a v
+        while (less(a[++i], v)) /*Começa no inicio e procura até encontrar um número maior ou igual a v*/
         {
             OP_CNT++;
         }
         OP_CNT++;
-        while (less(v, a[--j])) //Começa no final -1 e procura até encontrar um número menor ou igual a v
+        while (less(v, a[--j])) /*Começa no final -1 e procura até encontrar um número menor ou igual a v*/
         {
             OP_CNT++;
-            if (j == l) //Caso em que não encontra nenhum menor ou igual a v
+            if (j == l) /*Caso em que não encontra nenhum menor ou igual a v*/
                 break;
         }
-        if (i >= j) //Se já tiver o maior à direita e o menor à esquerda sai do for(;;)
+        if (i >= j) /*Se já tiver o maior à direita e o menor à esquerda sai do for(;;)*/
             break;
         exch((a[i]), (a[j]));
         OP_CNT += 4;
-        if (eq(a[i], v))    
+        if (eq(a[i], v))
         {
             p++;
-            exch((a[p]), (a[i])); //Mete o a[i] no canto esquerdo
+            exch((a[p]), (a[i])); /*Mete o a[i] no canto esquerdo*/
             OP_CNT += 2;
         }
         OP_CNT += 2;
         if (eq(a[j], v))
         {
             q--;
-            exch((a[q]), (a[j])); //Mete o a[j] no canto direito
+            exch((a[q]), (a[j])); /*Mete o a[j] no canto direito*/
             OP_CNT += 2;
         }
     }
-    exch((a[i]), (a[r])); //Meter o pivot no sitio certo da lista, onde tudo à esquerda é menor e tudo à direita é maior
+    exch((a[i]), (a[r])); /*Meter o pivot no sitio certo da lista, onde tudo à esquerda é menor e tudo à direita é maior*/
     OP_CNT += 2;
     j = i - 1;
     i = i + 1;
-    for (k = l; k <= p; k++, j--) //traz os do canto esquerdo para o lado esquerdo do pivot, visto que era o mesmo número a posição deles tem de ser ali
+    for (k = l; k <= p; k++, j--) /*traz os do canto esquerdo para o lado esquerdo do pivot, visto que era o mesmo número a posição deles tem de ser ali*/
         exch((a[k]), (a[j]));
     OP_CNT += 2;
-    for (k = r - 1; k >= q; k--, i++) //traz os do canto direito para o lado direito do pivot, visto que era o mesmo número a posição deles tem de ser ali
+    for (k = r - 1; k >= q; k--, i++) /*traz os do canto direito para o lado direito do pivot, visto que era o mesmo número a posição deles tem de ser ali*/
         exch((a[k]), (a[i]));
     OP_CNT += 2;
-    sort(a, l, j, less);    //volta a chamar as funções do inicio até ao número anterior metido por ultimo na esquerda naquela troca de cima 
-    sort(a, i, r, less);    //volta a chamar as funções desde do número a seguir ao metido por ultimo na direita naquela troca de cima, até ao fim
+    sort(a, l, j, less); /*volta a chamar as funções do inicio até ao número anterior metido por ultimo na esquerda naquela troca de cima*/
+    sort(a, i, r, less); /*volta a chamar as funções desde do número a seguir ao metido por ultimo na direita naquela troca de cima, até ao fim*/
 }
 
 /******************************************************************************
@@ -189,7 +189,7 @@ int main(int argc, char **argv)
     /*==== TODO ====*/
 
     /* ---------------------------------------- */
-    printf("Accesses count for sort: %d\n", OP_CNT);
+    printf("%d\n", numWords);
 
     WriteFile(tabword, file, numWords);
     /*  printf("Number of different words: %d\n", n_palavras);  */
@@ -201,6 +201,5 @@ int main(int argc, char **argv)
     /* ------------------------------------------------------------ */
     FreeWordArray(&tabword, numWords);
 
-    printf("\n\n");
     return 0;
 }

@@ -20,19 +20,20 @@ int main(int argc, char *argv[])
     {
         exit(-1);
     }
-    ent = argv[1];
-    saida = (char *)malloc((strlen(argv[1]) + 1) * sizeof(char));
-    if (ent == NULL || saida == NULL)
+    ent = (char *)malloc((strlen(argv[1]) + 2) * sizeof(char));
+    if (ent == NULL)
     {
         exit(-1);
     }
-    strncpy(saida, ent, strlen(argv[1]) - 3);
-    strcat(saida, "edge");
+    strcpy(ent, argv[1]);
     if ((fp = fopen(ent, "r")) == NULL)
     {
         exit(-1);
     }
-    if ((fp2 = fopen(saida, "w")) == NULL)
+    saida = strrchr(ent, '.');
+    *saida = '\0';
+    strcat(ent, ".edge");
+    if ((fp2 = fopen(ent, "w")) == NULL)
     {
 
         exit(-1);
@@ -46,7 +47,7 @@ int main(int argc, char *argv[])
     g->table = (int **)malloc(sizeof(int *) * (g->V));
     for (i = 0; i < g->V; i++)
     {
-        g->table[i] = (int *)malloc(sizeof(int) * (g->V));
+        g->table[i] = (int *)calloc(1, sizeof(int) * (g->V));
     }
     for (i = 0; i < (g->V); i++)
     {
@@ -92,7 +93,7 @@ int main(int argc, char *argv[])
 
     fclose(fp);
     fclose(fp2);
-    free(saida);
+    free(ent);
     for (i = 0; i < g->V; i++)
     {
         free(g->table[i]);

@@ -33,7 +33,7 @@ clean::
 # quick check of List package
 listest: LinkedList.o listest.c
 	$(CC) $(CFLAGS) -o $@ listest.c LinkedList.o
-
+val = valgrind --leak-check=full
 # tests w/ stdout dump to .edge | tail +3
 t:
 	./pg1 test/grafo11.adj
@@ -45,5 +45,15 @@ t:
 	./pg2 test/grafo5.edge
 	./pg2 test/grafo6.edge
 
+tv:
+	${val} ./pg1 test/grafo11.adj
+	${val} ./pg1 test/grafo4.adj
+	${val} ./pg1 test/grafo5.adj
+	${val} ./pg1 test/grafo6.adj
+	${val} ./pg2 test/grafo11.edge
+	${val} ./pg2 test/grafo4.edge
+	${val} ./pg2 test/grafo5.edge
+	${val} ./pg2 test/grafo6.edge
+
 banana:
-	@echo "\nCorreu tudo bem, já podemos ir comer bananinhas das boas"
+	@echo "\nCorreu tudo bem, agora podes ir comer umas bananinhas das boas!"

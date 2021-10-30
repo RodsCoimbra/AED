@@ -54,19 +54,20 @@ int main(int argc, char *argv[])
     {
         exit(-1);
     }
-    ent = argv[1];
-    saida = (char *)malloc((strlen(argv[1]) + 1) * sizeof(char));
-    if (ent == NULL || saida == NULL)
+    ent = (char *)malloc((strlen(argv[1]) + 1) * sizeof(char));
+    if (ent == NULL)
     {
         exit(-1);
     }
-    strncpy(saida, ent, strlen(argv[1]) - 4);
-    strcat(saida, "ladj");
+    strcpy(ent, argv[1]);
     if ((fp = fopen(ent, "r")) == NULL)
     {
         exit(-1);
     }
-    if ((fp2 = fopen(saida, "w")) == NULL)
+    saida = strrchr(ent, '.');
+    *saida = '\0';
+    strcat(ent, ".ladj");
+    if ((fp2 = fopen(ent, "w")) == NULL)
     {
 
         exit(-1);
@@ -82,10 +83,7 @@ int main(int argc, char *argv[])
     for (i = 0; i < (g->E); i++)
     {
         fscanf(fp, "%d %d %d", &no1, &no2, &custo);
-        if (custo != 0)
-        {
-            g->table[no1] = criar(custo, no2, g->table[no1]);
-        }
+        g->table[no1] = criar(custo, no2, g->table[no1]);
     }
     fprintf(fp2, "%d\n", g->V);
     for (i = 0; i < (g->V); i++)
@@ -99,12 +97,14 @@ int main(int argc, char *argv[])
 
     fclose(fp);
     fclose(fp2);
-    free(saida);
+    free(ent);
     for (i = 0; i < (g->V); i++)
     {
         for (aux = g->table[i]; aux != NULL; aux = aux2)
+        {
             aux2 = aux->next;
-        free(aux);
+            free(aux);
+        }
     }
     free(g->table);
     free(g);

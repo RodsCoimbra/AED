@@ -2,20 +2,45 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct lista_de_adjacencia
+{
+    ladj *next;
+    int custo;
+} ladj;
+
 typedef struct garfo
 {
-    int **table;
+    ladj **table;
     int V; /*vertices*/
     int E; /*Arestas*/
 } G;
+
+ladj *criar(int custo, ladj *g)
+{
+    ladj *novo = g, *aux;
+    novo = (ladj *)malloc(sizeof(ladj));
+    if (novo != NULL)
+    {
+        for (aux = g; aux->next != NULL; aux = aux->next)
+            ;
+        aux->next = novo;
+    }
+    else
+    {
+        return novo;
+    }
+    novo->next = NULL;
+    novo->custo = custo;
+    return g;
+}
 
 int main(int argc, char *argv[])
 {
     FILE *fp, *fp2;
     char *ent, *saida;
     G *g;
-    int i, j, grau = 0, aux;
-    double den = 0;
+    int i, j, aux;
+    ladj *aux2;
     if (argc < 2)
     {
         exit(-1);
@@ -26,8 +51,8 @@ int main(int argc, char *argv[])
     {
         exit(-1);
     }
-    strncpy(saida, ent, strlen(argv[1]) - 3);
-    strcat(saida, "edge");
+    strncpy(saida, ent, strlen(argv[1]) - 4);
+    strcat(saida, "ladj");
     if ((fp = fopen(ent, "r")) == NULL)
     {
         exit(-1);
@@ -37,57 +62,34 @@ int main(int argc, char *argv[])
 
         exit(-1);
     }
-    g = (G *)calloc(1, sizeof(G));
+    g = (G *)malloc(sizeof(G));
     if (g == NULL)
     {
         exit(-1);
     }
     fscanf(fp, "%d", &g->V);
-    g->table = (int **)malloc(sizeof(int *) * (g->V));
-    for (i = 0; i < g->V; i++)
-    {
-        g->table[i] = (int *)malloc(sizeof(int) * (g->V));
-    }
+    g->table = (ladj **)calloc(1, sizeof(ladj *) * (g->V));
+
     for (i = 0; i < (g->V); i++)
     {
         for (j = 0; j < (g->V); j++)
         {
-            fscanf(fp, "%d", &(g->table[i][j]));
-            if (g->table[i][j] != 0)
+            fscanf(fp, "%d", &aux);
+            if (aux != 0)
             {
+                g->table[i] = criar(aux, g->table[i]);
                 g->E++;
             }
         }
     }
-
-    for (i = 0; i < (g->V); i++)
-    {
-        for (j = i + 1, aux = 0; j < (g->V); j++)
-        {
-            if (g->table[i][j] != 0)
-            {
-                aux++;
-            }
-        }
-        if (grau < aux)
-        {
-            grau = aux;
-        }
-    }
     g->E /= 2;
-    /*Densidade*/
-    den = (double)(2 * g->E) / (g->V);
-    printf("Densidade %.3f\t grau máximo %d\n", den, grau);
-    fprintf(fp2, "%d %d", g->V, g->E);
     for (i = 0; i < (g->V); i++)
     {
-        for (j = i + 1, aux = 0; j < (g->V); j++)
+        for (aux2 = g->table[i]; aux2 != NULL; aux2 = aux2->next)
         {
-            if (g->table[i][j] != 0)
-            {
-                fprintf(fp2, "\n%d %d %d", i, j, g->table[i][j]);
-            }
+            printf("%d", aux2->custo);
         }
+        printf("\n");
     }
 
     fclose(fp);

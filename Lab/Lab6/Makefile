@@ -36,10 +36,10 @@ listest: LinkedList.o listest.c
 
 # tests w/ stdout dump to .edge | tail +3
 t:
-	./pg1 test/grafo11.adj > grafo11.edge
-	./pg1 test/grafo4.adj > grafo4.edge
-	./pg1 test/grafo5.adj > grafo5.edge
-	./pg1 test/grafo6.adj > grafo6.edge
+	./pg1 test/grafo11.adj
+	./pg1 test/grafo4.adj 
+	./pg1 test/grafo5.adj 
+	./pg1 test/grafo6.adj 
 
 ola:
 	echo "bananinhas das boas"

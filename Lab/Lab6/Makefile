@@ -14,7 +14,7 @@ SOURCES_2 = LinkedList.c  pg2.c
 OBJECTS_1 = pg1.o
 OBJECTS_2 = LinkedList.o pg2.o
 
-all: pg1 pg2
+all: pg1 pg2 banana
 
 pg1: $(OBJECTS_1)
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS_1)
@@ -40,6 +40,10 @@ t:
 	./pg1 test/grafo4.adj
 	./pg1 test/grafo5.adj
 	./pg1 test/grafo6.adj
+	./pg2 test/grafo11.edge
+	./pg2 test/grafo4.edge
+	./pg2 test/grafo5.edge
+	./pg2 test/grafo6.edge
 
-ola:
-	echo "bananinhas das boas"
+banana:
+	@echo "\nCorreu tudo bem, já podemos ir comer bananinhas das boas"

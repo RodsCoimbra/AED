@@ -4,7 +4,8 @@
 
 typedef struct lista_de_adjacencia
 {
-    ladj *next;
+    struct lista_de_adjacencia *next;
+    int no;
     int custo;
 } ladj;
 
@@ -15,11 +16,15 @@ typedef struct garfo
     int E; /*Arestas*/
 } G;
 
-ladj *criar(int custo, ladj *g)
+ladj *criar(int custo, int no, ladj *g)
 {
     ladj *novo = g, *aux;
     novo = (ladj *)malloc(sizeof(ladj));
-    if (novo != NULL)
+    if (novo == NULL)
+    {
+        exit(-1);
+    }
+    if (g != NULL)
     {
         for (aux = g; aux->next != NULL; aux = aux->next)
             ;
@@ -27,8 +32,12 @@ ladj *criar(int custo, ladj *g)
     }
     else
     {
+        novo->no = no;
+        novo->next = NULL;
+        novo->custo = custo;
         return novo;
     }
+    novo->no = no;
     novo->next = NULL;
     novo->custo = custo;
     return g;
@@ -39,8 +48,8 @@ int main(int argc, char *argv[])
     FILE *fp, *fp2;
     char *ent, *saida;
     G *g;
-    int i, j, aux;
-    ladj *aux2;
+    int i, custo, no1, no2;
+    ladj *aux, *aux2;
     if (argc < 2)
     {
         exit(-1);
@@ -67,37 +76,35 @@ int main(int argc, char *argv[])
     {
         exit(-1);
     }
-    fscanf(fp, "%d", &g->V);
+    fscanf(fp, "%d %d", &g->V, &g->E);
     g->table = (ladj **)calloc(1, sizeof(ladj *) * (g->V));
 
-    for (i = 0; i < (g->V); i++)
+    for (i = 0; i < (g->E); i++)
     {
-        for (j = 0; j < (g->V); j++)
+        fscanf(fp, "%d %d %d", &no1, &no2, &custo);
+        if (custo != 0)
         {
-            fscanf(fp, "%d", &aux);
-            if (aux != 0)
-            {
-                g->table[i] = criar(aux, g->table[i]);
-                g->E++;
-            }
+            g->table[no1] = criar(custo, no2, g->table[no1]);
         }
     }
-    g->E /= 2;
+    fprintf(fp2, "%d\n", g->V);
     for (i = 0; i < (g->V); i++)
     {
-        for (aux2 = g->table[i]; aux2 != NULL; aux2 = aux2->next)
+        for (aux = g->table[i]; aux != NULL; aux = aux->next)
         {
-            printf("%d", aux2->custo);
+            fprintf(fp2, "%d:%d ", aux->no, aux->custo);
         }
-        printf("\n");
+        fprintf(fp2, "-1\n");
     }
 
     fclose(fp);
     fclose(fp2);
     free(saida);
-    for (i = 0; i < g->V; i++)
+    for (i = 0; i < (g->V); i++)
     {
-        free(g->table[i]);
+        for (aux = g->table[i]; aux != NULL; aux = aux2)
+            aux2 = aux->next;
+        free(aux);
     }
     free(g->table);
     free(g);

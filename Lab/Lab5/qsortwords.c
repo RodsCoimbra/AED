@@ -409,5 +409,3 @@ int main(int argc, char **argv)
     FreeWordArray(&tabword, numWords);
 
     return 0;
-}
->>>>>>> 83c3af73c5061e304b45edfbd1017b93973cb3e3

@@ -36,6 +36,7 @@ listest: LinkedList.o listest.c
 val = valgrind --leak-check=full
 # tests w/ stdout dump to .edge | tail +3
 t:
+	@clear
 	./pg1 test/grafo11.adj
 	./pg1 test/grafo4.adj
 	./pg1 test/grafo5.adj
@@ -46,6 +47,7 @@ t:
 	./pg2 test/grafo6.edge
 
 tv:
+	@clear
 	${val} ./pg1 test/grafo11.adj
 	${val} ./pg1 test/grafo4.adj
 	${val} ./pg1 test/grafo5.adj

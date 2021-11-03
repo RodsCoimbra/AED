@@ -84,6 +84,7 @@ int main(int argc, char *argv[])
     {
         fscanf(fp, "%d %d %d", &no1, &no2, &custo);
         g->table[no1] = criar(custo, no2, g->table[no1]);
+        g->table[no2] = criar(custo, no1, g->table[no2]);
     }
     fprintf(fp2, "%d\n", g->V);
     for (i = 0; i < (g->V); i++)
